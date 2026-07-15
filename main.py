@@ -6,6 +6,7 @@ from PIL import Image
 import os
 from google import genai
 from google.genai import types
+from google.genai.errors import ServerError
 
 # --- Page Setup & Styling ---
 st.set_page_config(page_title="AgriSight AI Dashboard", layout="wide", page_icon="🌿")
@@ -114,16 +115,23 @@ with col2:
             """
             
             # Stream the Gen AI content directly to the UI container word-by-word
+           # Stream the Gen AI content directly to the UI container word-by-word with error handling
             def generate_stream():
-                response_stream = client.models.generate_content_stream(
-                    model='gemini-3.5-flash',
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        temperature=0.2, # Lower temperature for rigorous, factual agronomic responses
+                try:
+                    response_stream = client.models.generate_content_stream(
+                        model='gemini-3.5-flash',
+                        contents=prompt,
+                        config=types.GenerateContentConfig(
+                            temperature=0.2, # Lower temperature for rigorous, factual agronomic responses
+                        )
                     )
-                )
-                for chunk in response_stream:
-                    yield chunk.text
+                    for chunk in response_stream:
+                        if chunk.text:
+                            yield chunk.text
+                except ServerError as e:
+                    yield f"⚠️ **Gemini API Server Error:** The server is currently experiencing an issue or high demand. Please try submitting your request again in a few moments. \n\n*Details: {str(e)}*"
+                except Exception as e:
+                    yield f"⚠️ **An unexpected error occurred:** {str(e)}"
             
             # Render using Streamlit's built-in streaming container
             st.write_stream(generate_stream)
