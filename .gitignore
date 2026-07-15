@@ -4,3 +4,4 @@ split_data/
 uploads/
 __pycache__/
 .ipynb_checkpoints/
+.streamlit
