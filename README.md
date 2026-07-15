@@ -1,6 +1,6 @@
 # 🌿 AI-Powered Crop Disease Prediction System
 
-[![Streamlit App](https://static.streamlit.io/badge_gradient.svg)](https://cropdiseasepredictor.streamlit.app)
+[![Streamlit App](https://img.shields.io/badge/Streamlit-App-ff4b4b?style=flat-sq&logo=streamlit)](https://cropdiseasepredictor.streamlit.app)
 [![Deep Learning](https://img.shields.io/badge/Framework-PyTorch-ee4c2c?style=flat-sq&logo=pytorch)](https://pytorch.org/)
 [![Frontend](https://img.shields.io/badge/UI-Streamlit-ff4b4b?style=flat-sq&logo=streamlit)](https://streamlit.io/)
 [![Generative AI](https://img.shields.io/badge/GenAI-Gemini%203.5%20Flash-blue?style=flat-sq&logo=googlegemini)](https://aistudio.google.com/)
