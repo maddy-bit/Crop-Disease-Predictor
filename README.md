@@ -1,13 +1,16 @@
 # 🌿 AI-Powered Crop Disease Prediction System
 
+[![Streamlit App](https://img.shields.io/badge/Streamlit-App-ff4b4b?style=flat-sq&logo=streamlit)](https://cropdiseasepredictor.streamlit.app)
 [![Deep Learning](https://img.shields.io/badge/Framework-PyTorch-ee4c2c?style=flat-sq&logo=pytorch)](https://pytorch.org/)
 [![Frontend](https://img.shields.io/badge/UI-Streamlit-ff4b4b?style=flat-sq&logo=streamlit)](https://streamlit.io/)
-[![Architecture](https://img.shields.io/badge/Architecture-ResNet18--Transfer--Learning-blue?style=flat-sq)](#)
+[![Generative AI](https://img.shields.io/badge/GenAI-Gemini%203.5%20Flash-blue?style=flat-sq&logo=googlegemini)](https://aistudio.google.com/)
 [![Accuracy](https://img.shields.io/badge/Validation%20Accuracy-94.19%25-success?style=flat-sq)](#)
 
-A production-grade computer vision pipeline designed to identify crop leaf pathologies from raw images in real-time. Built leveraging **PyTorch** and **Transfer Learning (ResNet18)**, this system processes agricultural images, applies advanced data transformations, and delivers instantaneous diagnostics via an interactive **Streamlit** dashboard. 
+An advanced multi-modal agricultural intelligence pipeline designed to evaluate crop leaf pathologies and generate real-time mitigation blueprints. The system seamlessly fuses a **Predictive Deep Learning Engine (PyTorch ResNet18)** with a **Generative Agronomy Layer (Gemini 3.5 Flash via the official Google Gen AI SDK)** to deliver instantaneous computer vision diagnostics followed by interactive, streaming treatment action plans.
 
-Optimized for rapid validation, minimal computational footprint, and deployment-ready cross-platform integration.
+🚀 **Experience the Live Application Here:** [https://cropdiseasepredictor.streamlit.app](https://cropdiseasepredictor.streamlit.app)
+
+---
 
 ---
 
