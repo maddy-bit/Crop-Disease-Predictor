@@ -19,15 +19,15 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🌿 AgriSight AI: Intelligent Crop Diagnostic System")
-st.write("An advanced multi-modal system merging **Predictive Computer Vision (ResNet18)** with **Generative Agronomy (Gemini 3.5)**.")
+st.title("🌿 AgriSight AI: Intelligent Multi-Modal Crop Diagnostic System")
+st.write("An advanced multi-modal system merging **Predictive Computer Vision (ResNet18)** with **Generative Agronomy Triage (Gemini 3.5)**.")
 
 # --- Initialize Gen AI Client ---
 if "GEMINI_API_KEY" in os.environ:
     client = genai.Client()
 else:
     client = None
-    st.error("🔑 ERROR: `GEMINI_API_KEY` environment variable missing. Please export your key to enable the Generative AI layer.")
+    st.error("🔑 ERROR: `GEMINI_API_KEY` environment variable missing. Please add your key to enable the Generative AI layer.")
 
 # --- Load Class Labels & Model ---
 @st.cache_resource
@@ -91,31 +91,38 @@ with col2:
         if is_healthy:
             st.success("✨ **Neural Network Verdict:** Leaf sample profile matches normal distribution parameter guidelines. Plant is healthy.")
         elif client:
-            st.markdown("### 🤖 GenAI Agronomic Treatment Generation")
+            st.markdown("### 🤖 GenAI Agronomic Triage & Action Plan")
             
-            # Formulating a production prompt with strict constraints
+            # Intelligent Triage Routing System Prompt
             prompt = f"""
-            You are a Principal Plant Pathologist and senior Agricultural Advisor.
-            A crop sample has been evaluated by a computer vision model and confirmed with a {conf_score:.2f}% confidence to have: {clean_name}.
+            You are a Principal Plant Pathologist and Senior Agricultural Extension Officer.
+            A crop sample was analyzed by a computer vision network and identified with {conf_score:.2f}% confidence to have: {clean_name}.
             
-            Generate a highly actionable management blueprint formatted beautifully in clean markdown. 
-            Use clear bullet points and bold headers. Structure the response strictly into these 4 sections:
+            First, evaluate whether this specific disease ({clean_name}) is a "Critical Case" (e.g., highly infectious blights like Late Blight, quarantine vectors, or rapid epidemic outbreaks) or a "Manageable Case" (e.g., localized minor fungal spots, mildews, rusts, or cosmetic leaf anomalies).
             
-            ### 1. 🚨 Immediate Containment Actions
-            - Give localized tasks (pruning protocols, tool sanitation with % concentrations, debris handling).
+            Based on your triage evaluation, you must output your response in clean Markdown using one of the two strict routing paths below:
+
+            --------------------------------------------------
+            PATHWAY A: MANAGEABLE CASE (🟢 Minor/Contained Infection)
+            If the infection is manageable, print a badge at the top: `[TRIAGE: MANAGEABLE CASE 🟢]`
+            Then provide these sections:
+            1. **🚨 Immediate Containment Actions:** Local actions (how to prune, sanitize tools using specific % alcohol/bleach, and safely discard debris).
+            2. **🧪 Organic & Biological Remedies:** Non-chemical solutions and application warnings (e.g., temperature rules, sulfur/oil conflicts).
+            3. **🛡️ Conventional Chemical Treatments:** Standard chemical remedies utilizing FRAC rotation guidelines to prevent pathogen resistance.
+
+            --------------------------------------------------
+            PATHWAY B: CRITICAL CASE (🔴 High-Threat/Epidemic/Quarantine Vector)
+            If the disease is highly contagious, destructive, or a quarantine risk, print a warning badge at the top: `[TRIAGE: CRITICAL OUTBREAK ALERT 🔴]`
+            Then provide these sections:
+            1. **🛑 Emergency Isolation Steps:** Strict physical steps to isolate the infected area immediately to prevent farm-wide or region-wide devastation. Do not recommend basic DIY home remedies.
+            2. **📞 Expert Escalation Protocol:** Specific details on WHOM to contact immediately (e.g., local state agricultural extension office, university diagnostic labs, certified crop advisors, or department of agriculture).
+            3. **📝 Onsite Diagnostic Checklist:** A quick checklist of observations and historical data the farmer should gather before the expert arrives on-site.
+            --------------------------------------------------
             
-            ### 2. 🧪 Organic & Biological Remedies
-            - Focus on natural remedies, compound application rules (e.g., weather constraints, sulfur/oil conflicts).
-            
-            ### 3. 🛡️ Conventional Chemical Treatments
-            - Include structural compound recommendations using standard FRAC group rotations to avoid pathogen resistance. Add warning indicators.
-            
-            ### 4. 📅 Proactive Next-Cycle Prevention
-            - Provide soil adjustments, canopy spacing, or winter treatment adjustments to break the infection cycle.
+            Generate the appropriate pathway plan clearly and structure it using distinct markdown titles, bolding, and clean bullet lists. Do not show or discuss the unused pathway. Keep instructions highly practical.
             """
             
-            # Stream the Gen AI content directly to the UI container word-by-word
-           # Stream the Gen AI content directly to the UI container word-by-word with error handling
+            # Stream the Gen AI content directly to the UI container word-by-word with error handling
             def generate_stream():
                 try:
                     response_stream = client.models.generate_content_stream(
@@ -129,7 +136,7 @@ with col2:
                         if chunk.text:
                             yield chunk.text
                 except ServerError as e:
-                    yield f"⚠️ **Gemini API Server Error:** The server is currently experiencing an issue or high demand. Please try submitting your request again in a few moments. \n\n*Details: {str(e)}*"
+                    yield f"⚠️ **Gemini API Server Error:** The server is currently experiencing high demand. Please try again in a few moments. \n\n*Details: {str(e)}*"
                 except Exception as e:
                     yield f"⚠️ **An unexpected error occurred:** {str(e)}"
             
